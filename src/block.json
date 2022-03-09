@@ -12,9 +12,7 @@
 	},
 	"attributes": {
 		"countryCode": {
-			"type": "string",
-			"source": "html",
-			"selector": ".xwp-country-card__country-code"
+			"type": "string"
 		},
 		"relatedPosts": {
 			"type": "array",
