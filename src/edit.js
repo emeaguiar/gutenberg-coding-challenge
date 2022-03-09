@@ -11,6 +11,7 @@ import {
 } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -49,29 +50,26 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		}
 	};
 
-	useEffect( () => {
-		async function getRelatedPosts() {
-			const response = await window.fetch(
-				`/wp-json/wp/v2/posts?search=${ countries[ countryCode ] }&exclude=${ postId }`
-			);
-
-			if ( ! response.ok )
-				throw new Error( `HTTP error! Status: ${ response.status }` );
-
-			const posts = await response.json();
-
-			setAttributes( {
-				relatedPosts:
-					posts?.map( ( relatedPost ) => ( {
-						...relatedPost,
-						title: relatedPost.title?.rendered || relatedPost.link,
-						excerpt: relatedPost.excerpt?.rendered || '',
-					} ) ) || [],
+	const foundPosts = useSelect(
+		( select ) => {
+			return select( 'core' ).getEntityRecords( 'postType', 'post', {
+				exclude: postId,
+				search: countries[ countryCode ],
 			} );
-		}
+		},
+		[ countryCode, postId ]
+	);
 
-		getRelatedPosts();
-	}, [ countryCode, setAttributes ] );
+	useEffect( () => {
+		setAttributes( {
+			relatedPosts:
+				foundPosts?.map( ( relatedPost ) => ( {
+					...relatedPost,
+					title: relatedPost.title?.rendered || relatedPost.link,
+					excerpt: relatedPost.excerpt?.rendered || '',
+				} ) ) || [],
+		} );
+	}, [ foundPosts, setAttributes ] );
 
 	return (
 		<>
