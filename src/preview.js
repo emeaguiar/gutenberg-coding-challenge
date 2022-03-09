@@ -39,7 +39,7 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 				} }
 			></h3>
 			<div className="xwp-country-card__related-posts">
-				<h3 className="xwp-country-card__related-posts__heading">
+				<h4 className="xwp-country-card__related-posts__heading">
 					{ isLoading &&
 						__( 'Retrieving data…', 'xwp-country-card' ) }
 
@@ -58,7 +58,7 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 					{ ! isLoading &&
 						! hasRelatedPosts &&
 						__( 'No related posts.', 'xwp-country-card' ) }
-				</h3>
+				</h4>
 				{ hasRelatedPosts && (
 					<ul className="xwp-country-card__related-posts-list">
 						{ relatedPosts.map( ( relatedPost, index ) => (
@@ -68,9 +68,9 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 									href={ relatedPost.link }
 									data-post-id={ relatedPost.id }
 								>
-									<h3 className="title">
+									<h5 className="title">
 										{ relatedPost.title }
-									</h3>
+									</h5>
 									<p
 										className="excerpt"
 										dangerouslySetInnerHTML={ {
