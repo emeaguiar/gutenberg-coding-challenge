@@ -62,11 +62,11 @@ $color-secondary: $color-whisper;
 	padding-left: 1.5rem;
 }
 
-.related-post + .related-post {
+.xwp-country-card__related-post + .xwp-country-card__related-post {
 	margin-top: 1.5rem;
 }
 
-.related-post .title {
+.xwp-country-card__related-post .xwp-country-card__related-post-title {
 	font-family: var(--wp--preset--font-family--source-serif-pro);
 	font-size: 1.5rem;
     font-weight: 300;
@@ -75,6 +75,6 @@ $color-secondary: $color-whisper;
 	margin: 0;
 }
 
-.related-post .excerpt {
+.xwp-country-card__related-post .xwp-country-card__related-post-excerpt {
 	margin: 0;
 }
