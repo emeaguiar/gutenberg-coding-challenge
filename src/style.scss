@@ -47,6 +47,10 @@ $color-secondary: $color-whisper;
 	font-size: 2rem;
 }
 
+.xwp-country-card__code {
+	border-bottom: 3px dotted;
+}
+
 .xwp-country-card__related-posts {
 	border-top: 1px solid $color-primary;
 	background-color: $color-secondary;
