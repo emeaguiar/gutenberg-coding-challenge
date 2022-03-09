@@ -33,35 +33,27 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	const [ isPreview, setPreview ] = useState();
 
 	/**
-	 * Search for related posts.
+	 * Search related posts.
 	 */
-	const foundPosts = useSelect(
+	const { foundPosts, isLoading } = useSelect(
 		( select ) => {
-			return select( 'core' ).getEntityRecords( 'postType', 'post', {
-				exclude: postId,
-				search: countries[ countryCode ],
-			} );
-		},
-		[ countryCode, postId ]
-	);
+			const postArgs = [
+				'postType',
+				'post',
+				{
+					exclude: postId,
+					search: countries[ countryCode ],
+				},
+			];
 
-	/**
-	 * Determine if search is in progress.
-	 */
-	const isLoading = useSelect(
-		( select ) => {
-			return select( 'core/data' ).isResolving(
-				'core',
-				'getEntityRecords',
-				[
-					'postType',
-					'post',
-					{
-						exclude: postId,
-						search: countries[ countryCode ],
-					},
-				]
-			);
+			return {
+				foundPosts: select( 'core' ).getEntityRecords( ...postArgs ) || [],
+				isLoading: select( 'core/data' ).isResolving(
+					'core',
+					'getEntityRecords',
+					postArgs
+				),
+			};
 		},
 		[ countryCode, postId ]
 	);
