@@ -43,7 +43,8 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 					{ isLoading &&
 						__( 'Retrieving data…', 'xwp-country-card' ) }
 
-					{ ! isLoading && hasRelatedPosts &&
+					{ ! isLoading &&
+						hasRelatedPosts &&
 						sprintf(
 							/* translators: %s: number of found related posts */
 							_n(
