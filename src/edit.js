@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { edit, globe } from '@wordpress/icons';
-import { BlockControls } from '@wordpress/block-editor';
+import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	ComboboxControl,
 	Placeholder,
@@ -72,8 +72,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	}, [ foundPosts, setAttributes ] );
 
 	return (
-		<>
-			<BlockControls>
+		<div { ...useBlockProps() }>
+			<BlockControls group="block">
 				<ToolbarGroup>
 					<ToolbarButton
 						label={ __( 'Change Country', 'xwp-country-card' ) }
@@ -110,6 +110,6 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</Placeholder>
 				) }
 			</div>
-		</>
+		</div>
 	);
 }
