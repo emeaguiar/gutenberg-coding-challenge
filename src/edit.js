@@ -21,13 +21,14 @@ import './editor.scss';
 import { getEmojiFlag } from './utils';
 import Preview from './preview';
 
+const options = Object.keys( countries ).map( ( code ) => ( {
+	value: code,
+	label: `${ getEmojiFlag( code ) } ${ countries[ code ] } — ${ code }`,
+} ) );
+
 export default function Edit( { attributes, setAttributes, context } ) {
 	const { countryCode, relatedPosts } = attributes;
 	const { postId } = context;
-	const options = Object.keys( countries ).map( ( code ) => ( {
-		value: code,
-		label: `${ getEmojiFlag( code ) } ${ countries[ code ] } — ${ code }`,
-	} ) );
 
 	const [ isPreview, setPreview ] = useState();
 
