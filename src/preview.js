@@ -66,9 +66,7 @@ export default function Preview( { countryCode, relatedPosts } ) {
 									<h3 className="title">
 										{ relatedPost.title }
 									</h3>
-									<p className="excerpt">
-										{ relatedPost.excerpt }
-									</p>
+									<p className="excerpt" dangerouslySetInnerHTML={ { __html: relatedPost.excerpt } }></p>
 								</a>
 							</li>
 						) ) }
