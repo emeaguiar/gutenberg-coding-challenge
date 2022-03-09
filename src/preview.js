@@ -43,7 +43,7 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 					{ isLoading &&
 						__( 'Retrieving data…', 'xwp-country-card' ) }
 
-					{ hasRelatedPosts &&
+					{ ! isLoading && hasRelatedPosts &&
 						sprintf(
 							/* translators: %s: number of found related posts */
 							_n(
@@ -59,22 +59,23 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 						! hasRelatedPosts &&
 						__( 'No related posts.', 'xwp-country-card' ) }
 				</h4>
-				{ hasRelatedPosts && (
+				{ ! isLoading && hasRelatedPosts && (
 					<ul className="xwp-country-card__related-posts-list">
-						{ relatedPosts.map( ( relatedPost, index ) => (
-							<li key={ index } className="related-post">
+						{ relatedPosts.map( ( relatedPost ) => (
+							<li key={ relatedPost.id } className="related-post">
 								<a
 									className="link"
 									href={ relatedPost.link }
 									data-post-id={ relatedPost.id }
 								>
 									<h5 className="title">
-										{ relatedPost.title }
+										{ relatedPost.title?.rendered }
 									</h5>
 									<p
 										className="excerpt"
 										dangerouslySetInnerHTML={ {
-											__html: relatedPost.excerpt,
+											__html:
+												relatedPost.excerpt?.rendered,
 										} }
 									></p>
 								</a>

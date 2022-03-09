@@ -43,11 +43,13 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				{
 					exclude: postId,
 					search: countries[ countryCode ],
+					_fields: [ 'id', 'title', 'excerpt', 'link' ],
 				},
 			];
 
 			return {
-				foundPosts: select( 'core' ).getEntityRecords( ...postArgs ) || [],
+				foundPosts:
+					select( 'core' ).getEntityRecords( ...postArgs ) || [],
 				isLoading: select( 'core/data' ).isResolving(
 					'core',
 					'getEntityRecords',
@@ -68,12 +70,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	 */
 	useEffect( () => {
 		setAttributes( {
-			relatedPosts:
-				foundPosts?.map( ( relatedPost ) => ( {
-					...relatedPost,
-					title: relatedPost.title?.rendered || relatedPost.link,
-					excerpt: relatedPost.excerpt?.rendered || '',
-				} ) ) || [],
+			relatedPosts: foundPosts,
 		} );
 	}, [ foundPosts, setAttributes ] );
 
