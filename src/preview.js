@@ -1,51 +1,88 @@
+/**
+ * WordPress dependencies
+ */
+import { __, _n, sprintf } from '@wordpress/i18n';
+
+/**
+ * Internal dependencies
+ */
 import countries from '../assets/countries.json';
 import continentNames from '../assets/continent-names.json';
 import continents from '../assets/continents.json';
 import { getEmojiFlag } from './utils';
-import { __, sprintf } from '@wordpress/i18n';
 
-export default function Preview( { countryCode, relatedPosts } ) {
-	if ( ! countryCode ) return null;
-
-	const emojiFlag = getEmojiFlag( countryCode ),
-	      hasRelatedPosts = relatedPosts?.length > 0;
+export default function Preview( { countryCode, relatedPosts, isLoading } ) {
+	const emojiFlag = getEmojiFlag( countryCode );
+	const hasRelatedPosts = relatedPosts?.length > 0;
 
 	return (
 		<div className="xwp-country-card">
-			<div className="xwp-country-card__media" data-emoji-flag={ emojiFlag }>
-				<div className="xwp-country-card-flag">
-					{ emojiFlag }
-				</div>
+			<div
+				className="xwp-country-card__media"
+				data-emoji-flag={ emojiFlag }
+			>
+				<div className="xwp-country-card-flag">{ emojiFlag }</div>
 			</div>
-			<h3 className="xwp-country-card__heading">
-				{ __( 'Hello from' ) }
-				{ ' ' }
-				<strong>{ countries[countryCode] }</strong>
-				{ ' ' }
-				(<span className="xwp-country-card__country-code">{ countryCode }</span>),
-				{ ' ' }
-				{ continentNames[continents[countryCode]] }!
-			</h3>
+			<h3
+				className="xwp-country-card__heading"
+				dangerouslySetInnerHTML={ {
+					__html: sprintf(
+						/* translators: %1$s: country name, %2$s country code, %3$s continent name */
+						__(
+							`Hello from <strong>%1$s</strong> (<abbr title="%1$s" class="xwp-country-card__code">%2$s</abbr>), %3$s!`,
+							'xwp-country-card'
+						),
+						countries[ countryCode ],
+						countryCode,
+						continentNames[ continents[ countryCode ] ]
+					),
+				} }
+			></h3>
 			<div className="xwp-country-card__related-posts">
-				<h3 className="xwp-country-card__related-posts__heading">
-					{ hasRelatedPosts ? sprintf( __( 'There are %d related posts:' ), relatedPosts.length ) : __( 'There are no related posts.' ) }
-				</h3>
-				{ hasRelatedPosts && (
+				<h4 className="xwp-country-card__related-posts__heading">
+					{ isLoading &&
+						__( 'Retrieving data…', 'xwp-country-card' ) }
+
+					{ ! isLoading &&
+						hasRelatedPosts &&
+						sprintf(
+							/* translators: %s: number of found related posts */
+							_n(
+								'There is %d related post:',
+								'There are %d related posts:',
+								1,
+								'xwp-country-card'
+							),
+							relatedPosts.length
+						) }
+
+					{ ! isLoading &&
+						! hasRelatedPosts &&
+						__( 'No related posts.', 'xwp-country-card' ) }
+				</h4>
+				{ ! isLoading && hasRelatedPosts && (
 					<ul className="xwp-country-card__related-posts-list">
-						{ relatedPosts.map( ( relatedPost, index ) => (
-							<li key={ index } className="related-post">
-									<a
-										className="link"
-										href={ relatedPost.link }
-										data-post-id={ relatedPost.id }
-									>
-										<h3 className="title">
-											{ relatedPost.title }
-										</h3>
-										<p className="excerpt">
-											{ relatedPost.excerpt }
-										</p>
-									</a>
+						{ relatedPosts.map( ( relatedPost ) => (
+							<li
+								key={ relatedPost.id }
+								className="xwp-country-card__related-post"
+							>
+								<a
+									className="xwp-country-card__related-post-link"
+									href={ relatedPost.link }
+									data-post-id={ relatedPost.id }
+								>
+									<h5 className="xwp-country-card__related-post-title">
+										{ relatedPost.title?.rendered }
+									</h5>
+									<p
+										className="xwp-country-card__related-post-excerpt"
+										dangerouslySetInnerHTML={ {
+											__html:
+												relatedPost.excerpt?.rendered,
+										} }
+									></p>
+								</a>
 							</li>
 						) ) }
 					</ul>
