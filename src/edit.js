@@ -20,8 +20,9 @@ import './editor.scss';
 import { getEmojiFlag } from './utils';
 import Preview from './preview';
 
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, context } ) {
 	const { countryCode, relatedPosts } = attributes;
+	const { postId } = context;
 	const options = Object.keys( countries ).map( ( code ) => ( {
 		value: code,
 		label: `${ getEmojiFlag( code ) } ${ countries[ code ] } — ${ code }`,
@@ -47,7 +48,6 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		async function getRelatedPosts() {
-			const postId = window.location.href.match( /post=([\d]+)/ )[ 1 ];
 			const response = await window.fetch(
 				`/wp-json/wp/v2/posts?search=${ countries[ countryCode ] }&exclude=${ postId }`
 			);
