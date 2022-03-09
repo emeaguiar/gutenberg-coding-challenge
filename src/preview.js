@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
@@ -24,21 +24,30 @@ export default function Preview( { countryCode, relatedPosts } ) {
 			>
 				<div className="xwp-country-card-flag">{ emojiFlag }</div>
 			</div>
-			<h3 className="xwp-country-card__heading">
-				{ __( 'Hello from' ) }{ ' ' }
-				<strong>{ countries[ countryCode ] }</strong> (
-				<span className="xwp-country-card__country-code">
-					{ countryCode }
-				</span>{ ' ' }
-				{ continentNames[ continents[ countryCode ] ] }!
-			</h3>
+			<h3
+				className="xwp-country-card__heading"
+				dangerouslySetInnerHTML={ {
+					__html: sprintf(
+						/* translators: %1$s: country name, %2$s country code, %3$s continent name */
+						__(
+							`Hello from <strong>%1$s</strong> (<span className="xwp-country-card__code">%2$s</span> %3$s)!`,
+							'xwp-country-card'
+						),
+						countries[ countryCode ],
+						countryCode,
+						continentNames[ continents[ countryCode ] ]
+					),
+				} }
+			></h3>
 			<div className="xwp-country-card__related-posts">
 				<h3 className="xwp-country-card__related-posts__heading">
 					{ hasRelatedPosts
 						? sprintf(
 								/* translators: %s: number of found related posts */
-								__(
+								_n(
+									'There is %d related post:',
 									'There are %d related posts:',
+									1,
 									'xwp-country-card'
 								),
 								relatedPosts.length
