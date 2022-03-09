@@ -29,7 +29,7 @@ export default function Preview( { countryCode, relatedPosts, isLoading } ) {
 					__html: sprintf(
 						/* translators: %1$s: country name, %2$s country code, %3$s continent name */
 						__(
-							`Hello from <strong>%1$s</strong> (<span className="xwp-country-card__code">%2$s</span> %3$s)!`,
+							`Hello from <strong>%1$s</strong> (<span className="xwp-country-card__code">%2$s</span>) %3$s!`,
 							'xwp-country-card'
 						),
 						countries[ countryCode ],

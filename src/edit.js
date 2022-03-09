@@ -31,21 +31,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 	const [ isPreview, setPreview ] = useState();
 
-	useEffect( () => setPreview( countryCode ), [ countryCode ] );
-
-	const handleChangeCountry = () => {
-		setPreview( ! isPreview );
-	};
-
-	const handleChangeCountryCode = ( newCountryCode ) => {
-		if ( newCountryCode && countryCode !== newCountryCode ) {
-			setAttributes( {
-				countryCode: newCountryCode,
-				relatedPosts: [],
-			} );
-		}
-	};
-
+	/**
+	 * Search for related posts.
+	 */
 	const foundPosts = useSelect(
 		( select ) => {
 			return select( 'core' ).getEntityRecords( 'postType', 'post', {
@@ -56,6 +44,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		[ countryCode, postId ]
 	);
 
+	/**
+	 * Determine if search is in progress.
+	 */
 	const isLoading = useSelect(
 		( select ) => {
 			return select( 'core/data' ).isResolving(
@@ -74,6 +65,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		[ countryCode, postId ]
 	);
 
+	/**
+	 * Show preview with selected flag on change of country.
+	 */
+	useEffect( () => setPreview( countryCode ), [ countryCode ] );
+
+	/**
+	 * Store related posts in block attributes.
+	 */
 	useEffect( () => {
 		setAttributes( {
 			relatedPosts:
@@ -84,6 +83,27 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				} ) ) || [],
 		} );
 	}, [ foundPosts, setAttributes ] );
+
+	/**
+	 * Toggle preview when clicking toolbar icon.
+	 */
+	const handleChangeCountry = () => {
+		setPreview( ! isPreview );
+	};
+
+	/**
+	 * Update country code based on selection.
+	 *
+	 * @param {string} newCountryCode Selected country code.
+	 */
+	const handleChangeCountryCode = ( newCountryCode ) => {
+		if ( newCountryCode && countryCode !== newCountryCode ) {
+			setAttributes( {
+				countryCode: newCountryCode,
+				relatedPosts: [],
+			} );
+		}
+	};
 
 	return (
 		<div { ...useBlockProps() }>

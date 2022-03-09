@@ -1,3 +1,9 @@
+/**
+ * Return a country flag based on country code.
+ *
+ * @param {string} countryCode Country to retrieve.
+ * @return {*} Emoji.
+ */
 export function getEmojiFlag( countryCode ) {
 	return String.fromCodePoint(
 		...countryCode
