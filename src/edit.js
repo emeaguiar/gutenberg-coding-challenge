@@ -60,6 +60,24 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		[ countryCode, postId ]
 	);
 
+	const isLoading = useSelect(
+		( select ) => {
+			return select( 'core/data' ).isResolving(
+				'core',
+				'getEntityRecords',
+				[
+					'postType',
+					'post',
+					{
+						exclude: postId,
+						search: countries[ countryCode ],
+					},
+				]
+			);
+		},
+		[ countryCode, postId ]
+	);
+
 	useEffect( () => {
 		setAttributes( {
 			relatedPosts:
@@ -88,6 +106,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<Preview
 						countryCode={ countryCode }
 						relatedPosts={ relatedPosts }
+						isLoading={ isLoading }
 					/>
 				) : (
 					<Placeholder
