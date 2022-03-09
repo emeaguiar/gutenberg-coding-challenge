@@ -1,10 +1,17 @@
+$color-black: #000;
+$color-iron: #dcdcde;
+$color-whisper: #fafafc;
+
+$color-primary: $color-iron;
+$color-secondary: $color-whisper;
+
 .xwp-country-card {
-	border: 1px solid #dcdcde;
-	box-shadow: 0 1px 1px rgba(#000, 0.05);
+	border: 1px solid $color-primary;
+	box-shadow: 0 1px 1px rgba($color-black, 0.05);
 
 	.xwp-country-card__media {
 		align-items: center;
-		border-bottom: 1px solid #dcdcde;
+		border-bottom: 1px solid $color-primary;
 		display: flex;
 		height: calc(200px + 5vw);
 		justify-content: center;
@@ -41,8 +48,8 @@
 }
 
 .xwp-country-card__related-posts {
-	border-top: 1px solid #dcdcde;
-	background-color: #fafafc;
+	border-top: 1px solid $color-primary;
+	background-color: $color-secondary;
 	padding: 1.5rem;
 }
 
